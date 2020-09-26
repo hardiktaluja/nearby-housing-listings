@@ -115,6 +115,10 @@
 				<input id="places-search" type="text" placeholder="Ex: Pizza delivery in NYC">
 				<input id="go-places" type="button" value="Go">
 			</div>
+			<hr>
+			<div>
+				<input id="toggle-traffic" type="button" value="Toggle Traffic">
+			</div>
 		</div>
 		<div id="map"></div>
 	</div>
@@ -196,6 +200,7 @@
 				styles: styles,
 				mapTypeControl: false
 			});
+			var trafficLayer = new google.maps.TrafficLayer();
 			var timeAutocomplete = new google.maps.places.Autocomplete(document.getElementById('search-within-time-text'));
 			var zoomAutocomplete = new google.maps.places.Autocomplete(document.getElementById('zoom-to-area-text'));
 			zoomAutocomplete.bindTo('bounds', map);
@@ -260,6 +265,13 @@
 				searchBoxPlaces(this);
 			});
 			document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+			document.getElementById('toggle-traffic').addEventListener('click', function() {
+				if (trafficLayer.getMap() == null) {
+					trafficLayer.setMap(map);
+				} else {
+					trafficLayer.setMap(null);
+				}
+			});
 			drawingManager.addListener('overlaycomplete', function(event) {
 				if (polygon) {
 					polygon.setMap(null);
